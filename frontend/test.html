@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste Botão Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .info-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-left: 10px;
+        }
+        .info-button:hover {
+            background: #45a049;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste do Botão Informativo</h1>
+    
+    <div>
+        <p>Amazon QuickSight 
+            <button class="info-button" onclick="testShowInfo('Amazon QuickSight', 'Teste')">ℹ️</button>
+        </p>
+        <p>AWS Lambda 
+            <button class="info-button" onclick="testShowInfo('AWS Lambda', 'Teste 2')">ℹ️</button>
+        </p>
+    </div>
+
+    <div id="testModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTestModal()">&times;</span>
+            <h2 id="testTitle">Título</h2>
+            <div id="testContent">Conteúdo</div>
+        </div>
+    </div>
+
+    <script>
+        function testShowInfo(serviceName, painPoint) {
+            console.log('Botão clicado!', serviceName, painPoint);
+            const modal = document.getElementById('testModal');
+            const title = document.getElementById('testTitle');
+            const content = document.getElementById('testContent');
+            
+            title.textContent = serviceName;
+            content.innerHTML = `<p>Serviço: ${serviceName}</p><p>Dor: ${painPoint}</p>`;
+            modal.style.display = 'block';
+        }
+        
+        function closeTestModal() {
+            document.getElementById('testModal').style.display = 'none';
+        }
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById('testModal');
+            if (event.target === modal) {
+                closeTestModal();
+            }
+        }
+    </script>
+</body>
+</html>

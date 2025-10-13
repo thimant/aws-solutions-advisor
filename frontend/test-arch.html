@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste Arquitetura</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Teste do Botão de Arquitetura</h1>
+        
+        <div class="section">
+            <div class="recommendation-card">
+                <h3>Teste de Recomendação</h3>
+                <div class="architecture-section">
+                    <button class="architecture-button" id="testArchButton">
+                        🏗️ Ver Arquitetura de Referência
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="architectureModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close" onclick="closeArchitectureModal()">&times;</span>
+            <h2 id="architectureModalTitle">Arquitetura de Referência AWS</h2>
+            <div id="architectureModalContent">
+                <div id="architectureDiagram"></div>
+                <div id="architectureDescription"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+        
+        const API_URL = 'http://localhost:3000/api';
+        
+        window.closeArchitectureModal = function() {
+            document.getElementById('architectureModal').style.display = 'none';
+        }
+        
+        window.showArchitecture = async function(services, title, painPoint) {
+            console.log('showArchitecture chamada:', services, title);
+            
+            const modal = document.getElementById('architectureModal');
+            const modalTitle = document.getElementById('architectureModalTitle');
+            const diagramDiv = document.getElementById('architectureDiagram');
+            const descriptionDiv = document.getElementById('architectureDescription');
+            
+            if (!modal) {
+                console.error('Modal architectureModal não encontrado!');
+                return;
+            }
+            
+            modalTitle.textContent = `Arquitetura: ${title}`;
+            diagramDiv.innerHTML = '<p>Gerando arquitetura...</p>';
+            descriptionDiv.innerHTML = '';
+            modal.style.display = 'block';
+            
+            try {
+                const response = await fetch(`${API_URL}/generate-architecture`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        services: services,
+                        title: title,
+                        painPoint: painPoint
+                    })
+                });
+                
+                const data = await response.json();
+                console.log('Arquitetura recebida:', data);
+                
+                const diagramId = 'mermaid-' + Date.now();
+                diagramDiv.innerHTML = `<div class="mermaid" id="${diagramId}">${data.diagram}</div>`;
+                
+                await mermaid.run({
+                    nodes: document.querySelectorAll(`#${diagramId}`)
+                });
+                
+                descriptionDiv.innerHTML = `
+                    <div class="architecture-info">
+                        <h3>📋 Descrição da Arquitetura</h3>
+                        <p>${data.description}</p>
+                        
+                        <h3>🔄 Fluxo de Dados</h3>
+                        <ol>
+                            ${data.dataFlow.map(step => `<li>${step}</li>`).join('')}
+                        </ol>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Erro ao gerar arquitetura:', error);
+                diagramDiv.innerHTML = `<p>Erro: ${error.message}</p>`;
+            }
+        }
+        
+        document.getElementById('testArchButton').addEventListener('click', function() {
+            console.log('Botão clicado!');
+            showArchitecture(['Amazon QuickSight', 'Amazon Athena', 'Amazon S3'], 'Teste', 'Teste de Dor');
+        });
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById('architectureModal');
+            if (event.target === modal) {
+                closeArchitectureModal();
+            }
+        }
+    </script>
+</body>
+</html>

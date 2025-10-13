@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Botão Info</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Debug - Teste do Botão Informativo</h1>
+        
+        <div class="section">
+            <h2>Teste 1: Botão Simples</h2>
+            <button class="info-button">ℹ️</button>
+            <p>O botão acima deve aparecer como um círculo com fundo semi-transparente</p>
+        </div>
+        
+        <div class="section">
+            <h2>Teste 2: Botão em Lista (como nas recomendações)</h2>
+            <div class="recommendation-card">
+                <div class="aws-services">
+                    <h4>🔧 Serviços AWS:</h4>
+                    <ul>
+                        <li>
+                            • Amazon QuickSight 
+                            <button class="info-button" onclick="alert('Botão clicado!')">ℹ️</button>
+                        </li>
+                        <li>
+                            • AWS Lambda 
+                            <button class="info-button" onclick="alert('Lambda clicado!')">ℹ️</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Teste 3: Inspecionar Elemento</h2>
+            <p>Abra o DevTools (F12) e inspecione os botões acima para verificar:</p>
+            <ul>
+                <li>Se a classe "info-button" está aplicada</li>
+                <li>Se os estilos CSS estão sendo carregados</li>
+                <li>Se há algum erro no console</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
