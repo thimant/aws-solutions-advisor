@@ -1,5 +1,5 @@
 // Configuração da API - detecta automaticamente se está em produção ou local
-const API_URL = window.location.hostname === 'localhost' 
+const API_URL = window.location.origin + '/api'; 
     ? 'http://localhost:3000/api' 
     : '/api';
 
