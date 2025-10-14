@@ -19,13 +19,7 @@ const mockIndustries = {
 
 const mockPainPoints = {
   "Varejo e Bens de Consumo": [
-    {
-      id: "pain-1",
-      title: "Escalabilidade em Períodos de Pico",
-      description: "Lidar com picos de demanda",
-      impact: "Alto",
-      keywords: ["escalabilidade", "performance"]
-    }
+    { id: "pain-1", title: "Escalabilidade", description: "Lidar com picos de demanda", impact: "Alto", keywords: ["escalabilidade"] }
   ]
 };
 
@@ -43,25 +37,25 @@ const mockRecommendations = {
   ]
 };
 
-app.get('/api', (req, res) => {
+app.get('/api', function(req, res) {
   res.json({ status: 'ok', message: 'API is running', useMock: true });
 });
 
-app.get('/api/industries', (req, res) => {
+app.get('/api/industries', function(req, res) {
   res.json(mockIndustries);
 });
 
-app.get('/api/pain-points/:industry', (req, res) => {
-  const industry = req.params.industry;
-  const painPoints = mockPainPoints[industry] || [];
+app.get('/api/pain-points/:industry', function(req, res) {
+  var industry = req.params.industry;
+  var painPoints = mockPainPoints[industry] || [];
   res.json({ painPoints: painPoints });
 });
 
-app.post('/api/recommendations', (req, res) => {
+app.post('/api/recommendations', function(req, res) {
   res.json(mockRecommendations);
 });
 
-app.post('/api/service-info', (req, res) => {
+app.post('/api/service-info', function(req, res) {
   res.json({
     description: "Serviço AWS gerenciado",
     reason: "Resolve problemas de escalabilidade",
@@ -70,7 +64,7 @@ app.post('/api/service-info', (req, res) => {
   });
 });
 
-app.post('/api/generate-architecture', (req, res) => {
+app.post('/api/generate-architecture', function(req, res) {
   res.json({
     diagram: 'graph TB\n    User --> Service\n    Service --> Result',
     description: "Arquitetura AWS",
