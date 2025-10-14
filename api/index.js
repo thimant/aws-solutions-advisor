@@ -1,6 +1,7 @@
-// Vercel Serverless Function
-import express from 'express';
-import cors from 'cors';
+```javascript
+// Vercel Serverless Function - CommonJS
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
@@ -44,13 +45,6 @@ const mockPainPoints = {
       description: "Entregar conteúdo de vídeo com baixa latência globalmente",
       impact: "Crítico",
       keywords: ["streaming", "CDN", "latência"]
-    },
-    {
-      id: "pain-4",
-      title: "Armazenamento de Conteúdo",
-      description: "Gerenciar petabytes de mídia de forma eficiente",
-      impact: "Alto",
-      keywords: ["storage", "arquivamento", "custos"]
     }
   ],
   "Serviços Financeiros": [
@@ -60,13 +54,6 @@ const mockPainPoints = {
       description: "Atender requisitos do Banco Central e órgãos reguladores",
       impact: "Crítico",
       keywords: ["compliance", "regulação", "auditoria"]
-    },
-    {
-      id: "pain-6",
-      title: "Detecção de Fraudes",
-      description: "Identificar transações fraudulentas em tempo real",
-      impact: "Crítico",
-      keywords: ["fraude", "ML", "segurança"]
     }
   ],
   "Saúde e Ciências Biológicas": [
@@ -76,13 +63,6 @@ const mockPainPoints = {
       description: "Proteção de informações médicas sensíveis (HIPAA/LGPD)",
       impact: "Crítico",
       keywords: ["HIPAA", "LGPD", "privacidade"]
-    },
-    {
-      id: "pain-8",
-      title: "Análise de Imagens Médicas",
-      description: "Processar e analisar grandes volumes de imagens diagnósticas",
-      impact: "Alto",
-      keywords: ["imaging", "AI", "diagnóstico"]
     }
   ],
   "Óleo e Gás": [
@@ -92,13 +72,6 @@ const mockPainPoints = {
       description: "Monitorar equipamentos remotos em tempo real",
       impact: "Alto",
       keywords: ["IoT", "sensores", "manutenção preditiva"]
-    },
-    {
-      id: "pain-10",
-      title: "Análise Sísmica",
-      description: "Processar dados sísmicos para exploração",
-      impact: "Alto",
-      keywords: ["HPC", "big data", "geofísica"]
     }
   ],
   "Manufatura": [
@@ -108,13 +81,6 @@ const mockPainPoints = {
       description: "Prever falhas em equipamentos antes que ocorram",
       impact: "Alto",
       keywords: ["IoT", "ML", "downtime"]
-    },
-    {
-      id: "pain-12",
-      title: "Otimização da Cadeia de Suprimentos",
-      description: "Melhorar eficiência logística e reduzir custos",
-      impact: "Alto",
-      keywords: ["supply chain", "otimização", "logística"]
     }
   ],
   "Varejo e Bens de Consumo": [
@@ -124,13 +90,6 @@ const mockPainPoints = {
       description: "Lidar com picos de demanda durante eventos promocionais",
       impact: "Alto",
       keywords: ["escalabilidade", "performance", "black friday"]
-    },
-    {
-      id: "pain-14",
-      title: "Experiência Omnichannel",
-      description: "Integrar experiência online e offline perfeitamente",
-      impact: "Alto",
-      keywords: ["omnichannel", "integração", "customer experience"]
     }
   ]
 };
@@ -139,7 +98,7 @@ const mockRecommendations = {
   recommendations: [
     {
       title: "Arquitetura Serverless com Lambda e API Gateway",
-      description: "Solução escalável que se ajusta automaticamente à demanda, ideal para cargas de trabalho variáveis",
+      description: "Solução escalável que se ajusta automaticamente à demanda",
       awsServices: ["AWS Lambda", "Amazon API Gateway", "Amazon DynamoDB"],
       marketSolutions: ["Serverless Framework", "AWS SAM"],
       score: 95,
@@ -148,21 +107,12 @@ const mockRecommendations = {
     },
     {
       title: "Proteção de Dados com AWS Security Hub",
-      description: "Centralização de segurança e conformidade com visibilidade completa",
+      description: "Centralização de segurança e conformidade",
       awsServices: ["AWS Security Hub", "Amazon GuardDuty", "AWS WAF"],
       marketSolutions: ["CloudGuard", "Prisma Cloud"],
       score: 92,
       category: "seguranca",
       painPoint: "Segurança"
-    },
-    {
-      title: "Data Lake com S3 e Athena",
-      description: "Armazenamento escalável e análise de grandes volumes de dados",
-      awsServices: ["Amazon S3", "AWS Glue", "Amazon Athena"],
-      marketSolutions: ["Databricks", "Snowflake"],
-      score: 90,
-      category: "dados-analytics",
-      painPoint: "Análise de Dados"
     }
   ]
 };
@@ -200,7 +150,7 @@ app.get('/api/pain-points/:industry', (req, res) => {
 
 app.post('/api/recommendations', (req, res) => {
   const { industry, painPoints } = req.body;
-  console.log(`POST /api/recommendations - Industry: ${industry}, PainPoints: ${painPoints?.length}`);
+  console.log(`POST /api/recommendations - Industry: ${industry}`);
   res.json(mockRecommendations);
 });
 
@@ -208,6 +158,25 @@ app.post('/api/service-info', (req, res) => {
   const { serviceName, painPoint } = req.body;
   console.log(`POST /api/service-info - Service: ${serviceName}`);
   res.json({
-    description: `${serviceName} é um serviço AWS gerenciado que oferece alta disponibilidade, escalabilidade e segurança para suas aplicações.`,
-    reason: `Este serviço foi recomendado porque ajuda a resolver a dor: "${painPoint}". Ele oferece recursos específicos que atendem às necessidades identificadas.`,
-    benefits: [
+    description: `${serviceName} é um serviço AWS gerenciado.`,
+    reason: `Este serviço ajuda a resolver: ${painPoint}`,
+    benefits: ["Escalabilidade", "Alta disponibilidade", "Segurança"],
+    useCases: ["Aplicações empresariais", "Processamento de dados"]
+  });
+});
+
+app.post('/api/generate-architecture', (req, res) => {
+  const { services, title } = req.body;
+  console.log(`POST /api/generate-architecture - Title: ${title}`);
+  res.json({
+    diagram: 'graph TB\n    User["👤 Usuário"] --> Service["☁️ AWS Services"]\n    Service --> Result["✅ Resultado"]',
+    description: `Arquitetura usando ${services.length} serviços AWS`,
+    dataFlow: ["Usuário acessa", "Serviços processam", "Resultado entregue"],
+    benefits: ["Escalável", "Seguro", "Confiável"],
+    security: ["Criptografia", "IAM", "CloudTrail"]
+  });
+});
+
+// Export for Vercel
+module.exports = app;
+```
