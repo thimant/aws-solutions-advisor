@@ -2,7 +2,6 @@
   "name": "aws-solutions-advisor",
   "version": "1.0.0",
   "description": "AWS Solutions Advisor",
-  "type": "module",
   "scripts": {
     "start": "node api/index.js"
   },
